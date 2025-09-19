@@ -1,7 +1,7 @@
-import supabase from "../../config/supabaseClient.js";
+import {supabase }from "../../config/supabase.js";
 
 class AuthenticationController{
-  static async login(req, res) {
+  static async login(req, res, next) {
     const { email, password } = req.body;
 
     try {
@@ -22,14 +22,15 @@ class AuthenticationController{
         maxAge: 1000 * 60 * 60 * 1,
       });
 
+      console.log("User logged in")
       res.status(200).json({ accessToken });
     } catch (error) {
       console.error("Error during login:", error.message);
-      res.status(400).json({ error: error.message });
+      next(error);
     }
   }
 
-  static async logout(req, res) {
+  static async logout(req, res, next) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
@@ -42,11 +43,11 @@ class AuthenticationController{
       res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
       console.error("Error during logout:", error.message);
-      res.status(400).json({ error: error.message });
+      next(error);
     }
   }
 
-  static async refreshSession(req, res){
+  static async refreshSession(req, res, next){
     try {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) {
@@ -64,7 +65,7 @@ class AuthenticationController{
 
       res.status(200).json({message: "Token Refreshed", access_token: data.session.access_token});
     } catch (error) {
-        res.status(400).json({error: error.message || error})
+      next(error)
     }
   }
 }

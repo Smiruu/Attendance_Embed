@@ -1,6 +1,6 @@
-import { supabase } from "../database/supabase.js";
+import { supabase } from "../config/supabase.js";
 
-export async function authMiddleware(req, res, next) {
+export async function authenticate(req, res, next) {
   const access_token = req.headers.authorization?.split(" ")[1];
   const refresh_token = req.cookies["refreshToken"];
 
@@ -35,5 +35,6 @@ export async function authMiddleware(req, res, next) {
   }
 
   req.user = data.user;
+  
   next();
 }
