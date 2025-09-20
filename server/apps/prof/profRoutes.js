@@ -9,7 +9,7 @@ router.use(authenticate);
 router.use(adminAuth)
 
 router.post('/create', profController.createProf);
-router.delete('/delete', profController.deleteProf);
+router.delete('/:profId', profController.deleteProf);
 router.post('/course/create', profController.createCourse);
 
 

@@ -13,7 +13,7 @@ class profController {
 
     static async deleteProf(req, res, next) {
         try {
-            const result = await profServices.deleteProf(req.body);
+            const result = await profServices.deleteProf(req.params);
             res.status(200).json(result);
         } catch (error) {
             next(error);

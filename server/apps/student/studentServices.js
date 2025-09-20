@@ -3,7 +3,7 @@ import {supabase} from '../../config/supabase.js';
 class studentServices{
     static async createStudent(studentData) {
     
-            const {data, error} = await supabase
+            const {error} = await supabase
             .from('students')
             .insert([{
                 name: studentData.name,
@@ -21,7 +21,7 @@ class studentServices{
         .from('students')
         .select('*');
         if (error) throw error;
-        return {data, message: 'Students fetched successfully'};
+        return {students:data, message: 'Students fetched successfully'};
     }
 
     static async deleteStudent(studentData) {

@@ -21,7 +21,7 @@ class studentController {
 
     static async deleteStudent(req, res, next) {
         try {
-            const result = await studentServices.deleteStudent(req.body);
+            const result = await studentServices.deleteStudent(req.params);
             res.status(200).json(result);
         } catch (error) {
             next(error);
