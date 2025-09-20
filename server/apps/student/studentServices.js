@@ -46,7 +46,7 @@ class studentServices{
         if (error) throw error;
         return {message: 'Student added to course successfully'};
     }
-
+    
 }
 
 export default studentServices;
