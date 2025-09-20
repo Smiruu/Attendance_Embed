@@ -10,6 +10,24 @@ class profController {
             next(error);
         }
     }
+
+    static async deleteProf(req, res, next) {
+        try {
+            const result = await profServices.deleteProf(req.body);
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async createCourse(req, res, next) {
+        try {
+            const result = await profServices.createCourse(req.body);
+            res.status(201).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export default profController;
