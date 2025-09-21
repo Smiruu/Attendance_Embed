@@ -3,7 +3,7 @@ import {supabase} from '../../config/supabase.js';
 class profServices {
     static async createProf(profData) {
        
-        const {data: authData,error: authError} = await supabase.admin.auth.signUp({
+        const {data: authData,error: authError} = await supabase.auth.signUp({
             email: profData.email,
             password: profData.password,
             email_verified: true
@@ -17,7 +17,7 @@ class profServices {
             id: id,
             full_name:profData.full_name,
             role: 'professor',
-            hex_code: profData.hex_code,
+            id_code: profData.id_code,
         }])
 
         if (profileError) throw profileError;
@@ -26,9 +26,9 @@ class profServices {
    
     }
 
-    static async deleteProf(profData) {
-        
-            const {error: deleteError} = await supabase.admin.auth.deleteUser(profData.id);
+    static async deleteProf(id) {
+            console.log(id)
+            const {error: deleteError} = await supabase.auth.admin.deleteUser(id);
             if (deleteError) throw deleteError;
 
             return {message: 'Professor deleted successfully'};

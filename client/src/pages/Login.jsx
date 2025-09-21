@@ -7,7 +7,7 @@ const Login = () => {
   const { access, authLoading, authError, role } = useAuthProvider();
   const navigate = useNavigate();
 
-  console.log(role)
+
   useEffect(() => {
     if (access && role) {
       if (role === "professor") {

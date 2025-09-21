@@ -7,7 +7,7 @@ class studentServices{
             .from('students')
             .insert([{
                 name: studentData.name,
-                hex_code: studentData.hex_code,
+                id_code: studentData.id_code,
                 section: studentData.section,
             }])
 

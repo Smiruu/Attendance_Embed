@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState();
   const [access, setAccess] = useState(null);
   const [authLoading, setLoading] = useState(false);
-  const [authError, setError] = useState(false);
+  const [authError, setError] = useState(null);
 
   useEffect(() => {
     const refresh = async () => {
