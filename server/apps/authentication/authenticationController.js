@@ -5,15 +5,23 @@ class AuthenticationController{
     const { email, password } = req.body;
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
 
       if (error) throw error;
 
-      const accessToken = data.session.access_token;
-      const refreshToken = data.session.refresh_token;
+      const {data: roleData } = await supabase
+      .from('profiles')
+      .select("role")
+      .eq("id", authData.session.user.id)
+      .single();
+
+
+
+      const accessToken = authData.session.access_token;
+      const refreshToken = authData.session.refresh_token;
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -23,7 +31,7 @@ class AuthenticationController{
       });
 
       console.log("User logged in")
-      res.status(200).json({ user:data.session.user , accessToken });
+      res.status(200).json({ role: roleData,user:authData.session.user, accessToken });
     } catch (error) {
       console.error("Error during login:", error.message);
       next(error);
@@ -53,17 +61,26 @@ class AuthenticationController{
         if (!refreshToken) {
             return res.status(401).json({ error: "No refresh token provided" });
         }   
-        const {data, error} = await supabase.auth.refreshSession({refresh_token: refreshToken});
-      
+        const {data: authData, error} = await supabase.auth.refreshSession({refresh_token: refreshToken});
+        const {data: roleData } = await supabase
+      .from('profiles')
+      .select("role")
+      .eq("id", authData.session.user.id)
+      .single();
+     
       if (error) throw error;
-      res.cookie("refreshToken", data.session.refresh_token, {
+      res.cookie("refreshToken", authData.session.refresh_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 1,
       });
 
-      res.status(200).json({message: "Token Refreshed", accessToken: data.session.access_token});
+      res.status(200).json({
+        message: "Token Refreshed", 
+        user: authData.session.user,
+        role: roleData,
+        accessToken: authData.session.access_token});
     } catch (error) {
       next(error)
     }

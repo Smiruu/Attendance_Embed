@@ -1,58 +1,59 @@
-import axios from 'axios'
-import { createContext, useState, useContext, useEffect } from 'react'
+import axios from "axios";
+import { createContext, useState, useContext, useEffect } from "react";
 
 const API = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,  
-    withCredentials: true,
-})
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
+});
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children}) => {
-    const [user, setUser] = useState();
-    const [access, setAccess] = useState(null);
-    const [authLoading, setLoading] = useState(true);
-    const [authError, setError] = useState(false);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState();
+  const [role, setRole] = useState();
+  const [access, setAccess] = useState(null);
+  const [authLoading, setLoading] = useState(false);
+  const [authError, setError] = useState(false);
 
-    useEffect(() =>{
-        const refresh = async ()=>{
-            try {
-                const response = await API.get('/auth/refresh');
-                setAccess(response.accessToken)
-            } catch (err) {
-                setError(err?.response?.data?.message)
-            }
-        }
-        refresh()
-    },[])
-        
-    const login = async (email,password) => {
-        try {
+  useEffect(() => {
+    const refresh = async () => {
+      try {
+        const res = await API.get("/auth/refresh");
+        setUser(res.data.user);
+        setRole(res.data.role);
+        setAccess(res.data.accessToken);
+      } catch (err) {
+        setError(err?.response?.data?.message);
+      }
+    };
+    refresh();
+  }, []);
 
-            const res = await API.post('/auth/login', {email, password});
+  const login = async (email, password) => {
+    try {
+      setLoading(true);
+      const res = await API.post("/auth/login", { email, password });
 
-            console.log(res)
-            setUser(res.data.user)
-            setAccess(res.data.accessToken)
-            setLoading(false)
-        } catch (err) {
-            setError(err?.response?.data?.message)
-        }
+      console.log(res);
+      setUser(res.data.user);
+      setRole(res.data.role);
+      setAccess(res.data.accessToken);
+    } catch (err) {
+      setError(err?.response?.data?.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const value ={
-         user,
-            authLoading,
-            authError,
-            access,
-            login
-    }
-    return(
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+  const value = {
+    user,
+    authLoading,
+    authError,
+    access,
+    role,
+    login,
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
-
-export const useAuthProvider = () => useContext(AuthContext)
+export const useAuthProvider = () => useContext(AuthContext);
