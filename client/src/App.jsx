@@ -4,7 +4,7 @@ import { AuthProvider } from "./context/authContext.jsx";
 import "./index.css";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx"
-
+import Admin from "./pages/Admin.jsx";
 function App() {
 
   return (
@@ -14,7 +14,7 @@ function App() {
           <Router>
             <Routes>
               <Route path='/' element={<Login/>}/>
-
+              <Route path='/admin' element={<Admin/>}/>
               <Route path="/dashboard" element={<Dashboard/>}/>
 
             </Routes>
