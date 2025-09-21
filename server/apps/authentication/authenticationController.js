@@ -23,7 +23,7 @@ class AuthenticationController{
       });
 
       console.log("User logged in")
-      res.status(200).json({ accessToken });
+      res.status(200).json({ user:data.session.user , accessToken });
     } catch (error) {
       console.error("Error during login:", error.message);
       next(error);
@@ -63,7 +63,7 @@ class AuthenticationController{
         maxAge: 1000 * 60 * 60 * 1,
       });
 
-      res.status(200).json({message: "Token Refreshed", access_token: data.session.access_token});
+      res.status(200).json({message: "Token Refreshed", accessToken: data.session.access_token});
     } catch (error) {
       next(error)
     }

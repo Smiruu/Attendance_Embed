@@ -1,4 +1,4 @@
-import studentServices from "./studentServices";
+import studentServices from "./studentServices.js";
 class studentController {
 
     static async createStudent(req, res, next) {
