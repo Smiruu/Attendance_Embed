@@ -1,28 +1,31 @@
 import React from "react";
+import useAttendanceData from "../hooks/useAttendanceData";
 
 const AttendanceComponent = () => {
+  const { attendance, addAttendance } = useAttendanceData();
+
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-lg font-bold mb-4">Attendance Table</h2>
-      <table className="w-full border border-gray-300 text-sm text-gray-700">
-        <thead className="bg-gray-100">
+    <div className="bg-[#554640] rounded-lg p-4">
+      <h2 className="text-lg font-bold mb-4 text-white">Attendance Table</h2>
+
+      <table className="w-full border border-gray-300 text-sm text-white">
+        <thead className="bg-white text-[#554640] text-md">
           <tr>
-            <th className="border px-4 py-2 text-left">Name</th>
-            <th className="border px-4 py-2 text-left">Date</th>
-            <th className="border px-4 py-2 text-left">Status</th>
+            <th className="px-4 py-2 text-left w-1/2">NAME</th>
+            <th className="px-4 py-2 text-left">TIME-IN</th>
+            <th className="px-4 py-2 text-left">TIME-OUT</th>
+            <th className="px-4 py-2 text-left">REMARKS</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="border px-4 py-2">John Doe</td>
-            <td className="border px-4 py-2">Sept 20, 2025</td>
-            <td className="border px-4 py-2">Present</td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2">Jane Smith</td>
-            <td className="border px-4 py-2">Sept 20, 2025</td>
-            <td className="border px-4 py-2">Absent</td>
-          </tr>
+          {attendance.map((record) => (
+            <tr key={record.id}>
+              <td className="px-4 py-2">{record.name}</td>
+              <td className="px-4 py-2">{record.timeIn}</td>
+              <td className="px-4 py-2">{record.timeOut}</td>
+              <td className="px-4 py-2">{record.remarks}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
