@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const res = await API.get("/auth/refresh");
         setUser(res.data.user);
-        setRole(res.data.role);
+        setRole(res.data.role.role);
         setAccess(res.data.accessToken);
       } catch (err) {
         setError(err?.response?.data?.message);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
       console.log(res);
       setUser(res.data.user);
-      setRole(res.data.role);
+      setRole(res.data.role.role);
       setAccess(res.data.accessToken);
     } catch (err) {
       setError(err?.response?.data?.message);
