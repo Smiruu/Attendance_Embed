@@ -25,15 +25,19 @@ const Calendar = () => {
       {/* Days of week */}
       <div className="grid grid-cols-7 text-center font-medium text-gray-600">
         {daysOfWeek.map((day) => (
-          <div key={day} className="py-2">{day}</div>
+          <div key={day} className="py-2">
+            {day}
+          </div>
         ))}
       </div>
 
       {/* Dates */}
       <div className="grid grid-cols-7 text-center text-gray-800">
-        {Array(firstDayOfMonth).fill(null).map((_, i) => (
-          <div key={`empty-${i}`} className="py-2"></div>
-        ))}
+        {Array(firstDayOfMonth)
+          .fill(null)
+          .map((_, i) => (
+            <div key={`empty-${i}`} className="py-2"></div>
+          ))}
         {Array.from({ length: daysInMonth }, (_, i) => {
           const day = i + 1;
           const isToday =
