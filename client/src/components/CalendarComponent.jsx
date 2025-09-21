@@ -14,10 +14,10 @@ const Calendar = () => {
   } = useCalendarHook();
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md">
+    <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl overflow-hidden min-h-[325px]">
       {/* Header */}
-      <div className="text-center mb-4">
-        <h2 className="text-lg font-bold text-gray-800">
+      <div className="text-center bg-[#70625c] p-4 rounded-t-xl">
+        <h2 className="text-lg font-bold text-white">
           {monthNames[currentMonth]} {currentYear}
         </h2>
       </div>
@@ -44,8 +44,8 @@ const Calendar = () => {
           return (
             <div
               key={day}
-              className={`py-2 rounded-full cursor-pointer hover:bg-indigo-100 ${
-                isToday ? "bg-indigo-500 text-white font-bold" : ""
+              className={`py-2 rounded-full cursor-pointer hover:bg-[#70625c] hover:text-white ${
+                isToday ? "bg-[#554640] text-white font-bold" : ""
               }`}
             >
               {day}
