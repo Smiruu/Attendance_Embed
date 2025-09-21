@@ -1,5 +1,5 @@
 import React from "react";
-import { useClasses } from "../hooks/useClasses";
+import { useClasses } from "../../hooks/useClasses";
 
 function ClassesComponent() {
   const classes = useClasses();

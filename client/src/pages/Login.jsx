@@ -1,26 +1,21 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import LoginForm from '../components/LoginForm'
+import React, {useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
+import LoginForm from '../components/login/LoginForm'
 import { useAuthProvider } from '../context/authContext'
 
-const Login = () => {
-  const { access, authLoading, authError, role } = useAuthProvider();
-  const navigate = useNavigate();
 
-  console.log(role)
-  useEffect(() => {
-    if (access && role) {
-      if (role === "professor") {
-        navigate("/dashboard");
-      } else if (role === "admin") {
-        navigate("/admin");
-      }
-    }
-  }, [access, role, navigate]);
-
+const Login = () =>{
+    const{access, loading, error} = useAuthProvider();
+    const navigate = useNavigate();
+    console.log(access)
+    useEffect(()=>{
+        if(access){
+            navigate("/dashboard")
+        }
+    },[navigate, access])
   return (
     <div>
-      <LoginForm error={authError} loading={authLoading} />
+        <LoginForm error={error} loading={loading} />
     </div>
   )
 }

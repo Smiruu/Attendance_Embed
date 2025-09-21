@@ -1,7 +1,7 @@
 import React from "react";
-import Calendar from "../components/CalendarComponent.jsx";
-import AttendanceComponent from "../components/AttendanceComponent.jsx";
-import ClassesComponent from "../components/ClassesComponent.jsx";  
+import Calendar from "../components/dashboard/CalendarComponent.jsx";
+import AttendanceComponent from "../components/dashboard/AttendanceComponent.jsx";
+import ClassesComponent from "../components/dashboard/ClassesComponent.jsx";  
 
 function Dashboard() {
   return (

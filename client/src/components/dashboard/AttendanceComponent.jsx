@@ -1,5 +1,5 @@
 import React from "react";
-import useAttendanceData from "../hooks/useAttendanceData";
+import useAttendanceData from "../../hooks/useAttendanceData";
 
 const AttendanceComponent = () => {
   const { attendance, addAttendance } = useAttendanceData();
