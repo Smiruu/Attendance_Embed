@@ -10,7 +10,8 @@ router.use(adminAuth)
 
 router.post('/create', profController.createProf);
 router.delete('/:profId', profController.deleteProf);
-router.post('/course/create', profController.createCourse);
+router.get('/', profController.getProfList);
+router.post('/courses/create', profController.createCourse);
 router.get('/courses/:profId', profController.getProfCourses);
 
 

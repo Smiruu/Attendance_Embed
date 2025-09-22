@@ -21,6 +21,14 @@ class profController {
         }
     }
     
+    static async getProfList(req, res, next){
+        try {
+            const result = await profServices.getProfList();
+            res.status(200).json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
     
     static async createCourse(req, res, next) {
         try {

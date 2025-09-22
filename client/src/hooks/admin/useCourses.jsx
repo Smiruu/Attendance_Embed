@@ -6,16 +6,16 @@ const API = axios.create({
   withCredentials: true,
 });
 
-export const useProf = () => {
+export const useCourses = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createProf = async ({ accessToken, email, password, full_name, id_code }) => {
+  const createCourse = async ({ accessToken, prof_id, name }) => {
     setLoading(true);
     try {
       await API.post(
-        "/professor/create",
-        { email, password, full_name, id_code },
+        "/professor/courses/create",
+        { prof_id, name },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -29,29 +29,11 @@ export const useProf = () => {
     }
   };
 
-  const deleteProf = async(id, accessToken) =>{
-    setLoading(true);
-    try {
-      await API.delete(
-        `/professor/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-    } catch (err) {
-      setError(err?.response?.data?.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const getProfs = async(accessToken) =>{
+  const getProfCourses = async({accessToken, prof_id}) =>{
     setLoading(true);
     try {
         const res = await API.get(
-        `/professor`,
+        `/professor/courses/${prof_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -67,13 +49,13 @@ export const useProf = () => {
       setLoading(false);
     }
   }
+  
 
   return {
     loading,
     error,
-    createProf,
-    deleteProf,
-    getProfs
+    createCourse,
+    getProfCourses
   };
 };
 

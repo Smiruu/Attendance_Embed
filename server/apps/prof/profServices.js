@@ -31,11 +31,22 @@ class profServices {
     return { message: "Professor deleted successfully" };
   }
 
+  static async getProfList(){
+    const {data, error} = await supabase
+    .from('profiles')
+    .select('*')
+    .eq("role", "professor")
+
+    if(error) throw error
+
+    return {prof:data}
+  }
+
   static async createCourse(courseData) {
-    const { error } = await supabase.from("course").insert([
+    const { error } = await supabase.from("courses").insert([
       {
         prof_id: courseData.prof_id,
-        course_name: courseData.course_name,
+        name: courseData.name,
       },
     ]);
 
@@ -46,7 +57,7 @@ class profServices {
   static async getProfCourses(profId) {
     const {data, error} = await supabase
     .from('courses')
-    .select('name')
+    .select('name, id')
     .eq('prof_id', profId);
 
     if(error) throw error;

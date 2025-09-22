@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CreateProf from "../components/admin/CreateProf.jsx";
 // import UpdateProf from "../components/admin/UpdateProf.jsx";
 import DeleteProf from "../components/admin/DeleteProf.jsx";
+import CoursesFunction from "../components/admin/CoursesFunctions.jsx"; // 👈 import
 
 const Admin = () => {
   const [selectedFunction, setSelectedFunction] = useState(null);
@@ -13,6 +14,8 @@ const Admin = () => {
         return <CreateProf />;
       case "delete":
         return <DeleteProf />;
+      case "courses": // 👈 added
+        return <CoursesFunction />;
       default:
         return null;
     }
@@ -50,6 +53,15 @@ const Admin = () => {
               }}
             >
               Delete Professor
+            </button>
+            <button
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+              onClick={() => {
+                setSelectedFunction("courses"); // 👈 trigger CoursesFunction
+                setShowMenu(false);
+              }}
+            >
+              View Professors
             </button>
           </div>
         )}
