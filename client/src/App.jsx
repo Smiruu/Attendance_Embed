@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/authContext.jsx";
 import "./index.css";
-import Dashboard from "./pages/Dashboard.jsx";
+import Dashboard from "./pages/dashboard.jsx";
 import Login from "./pages/Login.jsx"
 import Admin from "./pages/Admin.jsx";
 function App() {
