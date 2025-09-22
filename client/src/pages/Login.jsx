@@ -19,8 +19,8 @@ const Login = () => {
   }, [access, role, navigate]);
 
   return (
-    <div>
-        <LoginForm error={authError} loading={authLoading} />
+    <div>   
+      <LoginForm error={authError} loading={authLoading} />
     </div>
   )
 }

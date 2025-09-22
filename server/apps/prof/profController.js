@@ -20,11 +20,21 @@ class profController {
             next(error);
         }
     }
-
+    
+    
     static async createCourse(req, res, next) {
         try {
             const result = await profServices.createCourse(req.body);
             res.status(201).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getProfCourses (req, res, next){
+        try {
+            const result = await profServices.getProfCourses(req.params.profId);
+            res.status(200).json(result)
         } catch (error) {
             next(error);
         }
