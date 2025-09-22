@@ -6,12 +6,12 @@ import {authenticate} from '../../middleware/authenticate.js';
 const router = express.Router();
 
 router.use(authenticate);
-router.use(adminAuth)
 
-router.post('/create', profController.createProf);
-router.delete('/:profId', profController.deleteProf);
-router.get('/', profController.getProfList);
-router.post('/courses/create', profController.createCourse);
+
+router.post('/create', adminAuth, profController.createProf);
+router.delete('/:profId', adminAuth, profController.deleteProf);
+router.get('/', adminAuth, profController.getProfList);
+router.post('/courses/create', adminAuth,profController.createCourse);
 router.get('/courses/:profId', profController.getProfCourses);
 
 

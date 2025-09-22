@@ -31,38 +31,66 @@ class profServices {
     return { message: "Professor deleted successfully" };
   }
 
-  static async getProfList(){
-    const {data, error} = await supabase
-    .from('profiles')
-    .select('*')
-    .eq("role", "professor")
+  static async getProfList() {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("role", "professor");
 
-    if(error) throw error
+    if (error) throw error;
 
-    return {prof:data}
+    return { prof: data };
   }
 
   static async createCourse(courseData) {
-    const { error } = await supabase.from("courses").insert([
+    const { data: courseRows, error: CourseError } = await supabase
+      .from("courses")
+      .insert([
+        {
+          prof_id: courseData.prof_id,
+          name: courseData.name,
+        },
+      ])
+      .select();
+
+    if (CourseError) throw CourseError;
+
+    const course = courseRows?.[0]; // get first row safely
+    console.log("course:", course);
+
+    const { error: ScheduleError } = await supabase.from("schedules").insert([
       {
-        prof_id: courseData.prof_id,
-        name: courseData.name,
+        course_id: course.id,
+        time_start: courseData.time_start,
+        time_end: courseData.time_end,
+        day: courseData.day,
       },
     ]);
-
-    if (error) throw error;
+    console.log("error", ScheduleError)
+    if (ScheduleError) throw ScheduleError;
     return { message: "Course created successfully" };
   }
 
-  static async getProfCourses(profId) {
-    const {data, error} = await supabase
-    .from('courses')
-    .select('name, id')
-    .eq('prof_id', profId);
+ static async getProfCourses(profId) {
+  const { data, error } = await supabase
+    .from("courses")
+    .select(`
+      id,
+      name,
+      schedules (
+        id,
+        time_start,
+        time_end,
+        day
+      )
+    `)
+    .eq("prof_id", profId);
 
-    if(error) throw error;
-    return{ courses: data, message:"Successfully got the courses"}
-  }
+  if (error) throw error;
+
+  return { courses: data, message: "Successfully got the courses with schedules" };
+}
+
 }
 
 export default profServices;

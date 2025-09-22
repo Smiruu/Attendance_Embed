@@ -10,12 +10,12 @@ export const useCourses = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createCourse = async ({ accessToken, prof_id, name }) => {
+  const createCourse = async ({ accessToken, prof_id, name, time_start, time_end, day }) => {
     setLoading(true);
     try {
       await API.post(
         "/professor/courses/create",
-        { prof_id, name },
+        { prof_id, name, time_start, time_end, day },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
