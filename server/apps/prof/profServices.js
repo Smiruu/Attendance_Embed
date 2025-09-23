@@ -64,6 +64,7 @@ class profServices {
         time_start: courseData.time_start,
         time_end: courseData.time_end,
         day: courseData.day,
+        room:courseData.room,
       },
     ]);
     console.log("error", ScheduleError)
@@ -81,7 +82,8 @@ class profServices {
         id,
         time_start,
         time_end,
-        day
+        day,
+        room
       )
     `)
     .eq("prof_id", profId);

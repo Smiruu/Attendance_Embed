@@ -8,6 +8,7 @@ const CourseTable = ({ profId }) => {
 
   const [courses, setCourses] = useState([]);
 
+  console.log(courses)
   // mapping short day → full day
   const dayMap = {
     Mon: "Monday",
@@ -65,6 +66,7 @@ const CourseTable = ({ profId }) => {
           <tr className="bg-gray-100">
             <th className="border border-gray-300 p-2">ID</th>
             <th className="border border-gray-300 p-2">Course Name</th>
+             <th className="border border-gray-300 p-2">Room</th>
             <th className="border border-gray-300 p-2">Days</th>
             <th className="border border-gray-300 p-2">Time Start</th>
             <th className="border border-gray-300 p-2">Time End</th>
@@ -78,6 +80,7 @@ const CourseTable = ({ profId }) => {
                   <tr key={`${course.id}-${schedule.id}`}>
                     <td className="border border-gray-300 p-2">{course.id}</td>
                     <td className="border border-gray-300 p-2">{course.name}</td>
+                    <td className="border border-gray-300 p-2">{schedule.room}</td>
                     <td className="border border-gray-300 p-2">
                       {formatDays(schedule.day)}
                     </td>
@@ -87,6 +90,7 @@ const CourseTable = ({ profId }) => {
                     <td className="border border-gray-300 p-2">
                       {formatTime(schedule.time_end)}
                     </td>
+
                   </tr>
                 ))
               ) : (

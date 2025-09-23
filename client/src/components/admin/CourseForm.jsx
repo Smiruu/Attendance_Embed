@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { useAuthProvider } from "../../context/authContext";
 import { useCourses } from "../../hooks/admin/useCourses";
 
@@ -10,6 +10,7 @@ const CourseForm = ({ profId, onCourseCreated }) => {
   const [timeStart, setTimeStart] = useState({ hour: "", minute: "", period: "AM" });
   const [timeEnd, setTimeEnd] = useState({ hour: "", minute: "", period: "AM" });
   const [days, setDays] = useState([]); // ⬅️ array of days
+  const [room, setRoom] = useState("")
 
   const handleDayChange = (day) => {
     setDays((prev) =>
@@ -42,6 +43,7 @@ const CourseForm = ({ profId, onCourseCreated }) => {
       time_start: startTime,
       time_end: endTime,
       day: days, // ⬅️ array of days
+      room: room,
     });
 
     // reset form
@@ -81,6 +83,14 @@ const CourseForm = ({ profId, onCourseCreated }) => {
         placeholder="Enter course name"
         value={courseName}
         onChange={(e) => setCourseName(e.target.value)}
+        className="border p-2 rounded w-full"
+      />
+
+      <input
+        type="text"
+        placeholder="Enter room"
+        value={room}
+        onChange={(e) => setRoom(e.target.value)}
         className="border p-2 rounded w-full"
       />
 
