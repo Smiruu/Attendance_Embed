@@ -56,21 +56,23 @@ const CourseTable = ({ profId }) => {
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-lg font-semibold">Courses for Professor</h2>
-        <button
-          onClick={() => setRefresh(true)} // 👈 trigger refresh
-          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Refresh
-        </button>
-      </div>
+  <div>
+    <div className="flex items-center justify-between mb-2">
+      <h2 className="text-lg font-semibold">Courses for Professor</h2>
+      <button
+        onClick={() => setRefresh(true)} // 👈 trigger refresh
+        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Refresh
+      </button>
+    </div>
 
-      {error && <p className="text-red-500">{error}</p>}
-      {loading && <p>Loading courses...</p>}
+    {error && <p className="text-red-500">{error}</p>}
+    {loading && <p>Loading courses...</p>}
 
-      <table className="w-full border-collapse border border-gray-300">
+    {/* 👇 scroll wrapper */}
+    <div className="overflow-x-auto">
+      <table className="min-w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 p-2">ID</th>
@@ -126,7 +128,9 @@ const CourseTable = ({ profId }) => {
         </tbody>
       </table>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default CourseTable;

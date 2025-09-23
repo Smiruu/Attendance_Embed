@@ -25,7 +25,7 @@ const CoursesFunction = () => {
   }, [access]);
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-black"> {/* 👈 default all text black */}
       <h1 className="text-xl font-bold mb-4">Professor Courses</h1>
 
       {/* Select professor */}
@@ -39,7 +39,7 @@ const CoursesFunction = () => {
             setSelectedProf(e.target.value);
             setShowForm(false); // reset form when switching prof
           }}
-          className="border p-2 rounded w-full mb-4"
+          className="border p-2 rounded w-full mb-4 text-black"
         >
           <option value="">-- Select a Professor --</option>
           {profs.map((prof) => (
@@ -70,7 +70,9 @@ const CoursesFunction = () => {
       )}
 
       {/* Courses table */}
-      {selectedProf && <CourseTable profId={selectedProf} refreshFlag={refreshFlag} />}
+      {selectedProf && (
+        <CourseTable profId={selectedProf} refreshFlag={refreshFlag} />
+      )}
     </div>
   );
 };

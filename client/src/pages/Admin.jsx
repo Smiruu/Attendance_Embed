@@ -20,6 +20,7 @@ const Admin = () => {
       case "deleteProf":
         return <DeleteProf />;
       case "courses":
+    
         return <CoursesFunction />;
 
       // Student Functions
