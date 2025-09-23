@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useProf } from "../../hooks/admin/useProf";
-import { useAuthProvider } from "../../context/authContext";
+import { useProf } from "../../../hooks/admin/useProf";
+import { useAuthProvider } from "../../../context/authContext";
 
 const DeleteProf = () => {
   const { deleteProf, loading, error } = useProf(); // 👈 from your hook

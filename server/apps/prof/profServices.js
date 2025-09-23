@@ -49,6 +49,7 @@ class profServices {
         {
           prof_id: courseData.prof_id,
           name: courseData.name,
+          section: courseData.section,
         },
       ])
       .select();
@@ -64,6 +65,7 @@ class profServices {
         time_start: courseData.time_start,
         time_end: courseData.time_end,
         day: courseData.day,
+        
         room:courseData.room,
       },
     ]);
@@ -78,6 +80,7 @@ class profServices {
     .select(`
       id,
       name,
+      section,
       schedules (
         id,
         time_start,

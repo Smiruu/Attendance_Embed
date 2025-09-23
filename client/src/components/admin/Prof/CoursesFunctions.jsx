@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuthProvider } from "../../context/authContext";
-import { useProf } from "../../hooks/admin/useProf";
+import { useAuthProvider } from "../../../context/authContext";
+import { useProf } from "../../../hooks/admin/useProf";
 import CourseTable from "./CourseTable";
 import CourseForm from "./CourseForm";
 

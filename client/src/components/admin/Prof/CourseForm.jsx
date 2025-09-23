@@ -1,12 +1,13 @@
 import { use, useState } from "react";
-import { useAuthProvider } from "../../context/authContext";
-import { useCourses } from "../../hooks/admin/useCourses";
+import { useAuthProvider } from "../../../context/authContext";
+import { useCourses } from "../../../hooks/admin/useCourses";
 
 const CourseForm = ({ profId, onCourseCreated }) => {
   const { createCourse, loading } = useCourses();
   const { access } = useAuthProvider();
 
   const [courseName, setCourseName] = useState("");
+  const [section, setSection] = useState("")
   const [timeStart, setTimeStart] = useState({ hour: "", minute: "", period: "AM" });
   const [timeEnd, setTimeEnd] = useState({ hour: "", minute: "", period: "AM" });
   const [days, setDays] = useState([]); // ⬅️ array of days
@@ -40,6 +41,7 @@ const CourseForm = ({ profId, onCourseCreated }) => {
       accessToken: access,
       prof_id: profId,
       name: courseName,
+      section: section,
       time_start: startTime,
       time_end: endTime,
       day: days, // ⬅️ array of days
@@ -83,6 +85,13 @@ const CourseForm = ({ profId, onCourseCreated }) => {
         placeholder="Enter course name"
         value={courseName}
         onChange={(e) => setCourseName(e.target.value)}
+        className="border p-2 rounded w-full"
+      />
+      <input
+        type="text"
+        placeholder="Enter section"
+        value={section}
+        onChange={(e) => setSection(e.target.value)}
         className="border p-2 rounded w-full"
       />
 

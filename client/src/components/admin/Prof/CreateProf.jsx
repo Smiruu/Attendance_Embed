@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useProf } from "../../hooks/admin/useProf"; 
-import { useAuthProvider } from "../../context/authContext"; // to get accessToken
+import { useProf } from "../../../hooks/admin/useProf"; 
+import { useAuthProvider } from "../../../context/authContext"; // to get accessToken
 
 const CreateProf = () => {
   const { createProf, loading, error } = useProf();
