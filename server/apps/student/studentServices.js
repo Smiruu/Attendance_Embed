@@ -8,9 +8,7 @@ class studentServices{
             .insert([{
                 name: studentData.name,
                 id_code: studentData.id_code,
-                section: studentData.section,
             }])
-
             if (error) throw error;
             return {message: 'Student created successfully'};
         }
@@ -24,12 +22,13 @@ class studentServices{
         return {students:data, message: 'Students fetched successfully'};
     }
 
-    static async deleteStudent(studentData) {
+    static async deleteStudent(studentId) {
+    
         const {error} = await supabase
         .from('students')
         .delete()
-        .eq('id', studentData.id);
-
+        .eq('id', studentId);
+        
         if(error) throw error;
         return {message: 'Student deleted successfully'};
     }

@@ -6,7 +6,7 @@ import { adminAuth } from '../../middleware/adminAuth.js';
 const router = express.Router();
 
 router.use(authenticate)
-router.use(adminAuth)
+    router.use(adminAuth)
 
 router.post('/create', studentController.createStudent)
 router.get('/', studentController.getStudents)

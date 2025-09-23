@@ -1,74 +1,122 @@
 import React, { useState } from "react";
-import CreateProf from "../components/admin/CreateProf.jsx";
-// import UpdateProf from "../components/admin/UpdateProf.jsx";
-import DeleteProf from "../components/admin/DeleteProf.jsx";
-import CoursesFunction from "../components/admin/CoursesFunctions.jsx"; // 👈 import
+import CreateProf from "../components/admin/Prof/CreateProf.jsx";
+import DeleteProf from "../components/admin/Prof/DeleteProf.jsx";
+import CoursesFunction from "../components/admin/Prof/CoursesFunctions.jsx";
+
+import CreateStudent from "../components/admin/Students/CreateStudent.jsx";
+import DeleteStudent from "../components/admin/Students/DeleteStudent.jsx";
+// import AddStudentToCourse from "../components/admin/Students/AddStudentToCourse.jsx";
 
 const Admin = () => {
   const [selectedFunction, setSelectedFunction] = useState(null);
-  const [showMenu, setShowMenu] = useState(false);
+  const [showProfMenu, setShowProfMenu] = useState(false);
+  const [showStudentMenu, setShowStudentMenu] = useState(false);
 
   const renderFunction = () => {
     switch (selectedFunction) {
-      case "create":
+      // Professor Functions
+      case "createProf":
         return <CreateProf />;
-      case "delete":
+      case "deleteProf":
         return <DeleteProf />;
-      case "courses": // 👈 added
+      case "courses":
         return <CoursesFunction />;
+
+      // Student Functions
+      case "createStudent":
+        return <CreateStudent />;
+      case "deleteStudent":
+        return <DeleteStudent />;
+      // case "addStudentCourse":
+      //   return <AddStudentToCourse />;
+
       default:
-        return null;
+        return (
+          <p className="text-gray-500 text-lg">
+            Select a function from the sidebar.
+          </p>
+        );
     }
   };
 
   return (
-    <div className="text-black p-4">
-      <h1 className="text-xl font-bold mb-4">Admin</h1>
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <div className="w-64 bg-gray-800 text-white flex flex-col">
+        <h2 className="text-xl font-bold p-4 border-b border-gray-700">
+          Admin Panel
+        </h2>
 
-      {/* Dropdown-like button */}
-      <div className="relative">
-        <button
-          onClick={() => setShowMenu((prev) => !prev)}
-          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-        >
-          Professor Functions
-        </button>
+        {/* Professor Functions */}
+        <div>
+          <button
+            onClick={() => setShowProfMenu((prev) => !prev)}
+            className="w-full text-left px-4 py-2 hover:bg-gray-700"
+          >
+            Professor Functions
+          </button>
+          {showProfMenu && (
+            <div className="pl-6">
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                onClick={() => setSelectedFunction("createProf")}
+              >
+                Create Professor
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                onClick={() => setSelectedFunction("deleteProf")}
+              >
+                Delete Professor
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                onClick={() => setSelectedFunction("courses")}
+              >
+                View Professors
+              </button>
+            </div>
+          )}
+        </div>
 
-        {showMenu && (
-          <div className="absolute mt-2 w-48 bg-white border rounded shadow-md">
-            <button
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-              onClick={() => {
-                setSelectedFunction("create");
-                setShowMenu(false);
-              }}
-            >
-              Create Professor
-            </button>
-            <button
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-              onClick={() => {
-                setSelectedFunction("delete");
-                setShowMenu(false);
-              }}
-            >
-              Delete Professor
-            </button>
-            <button
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-              onClick={() => {
-                setSelectedFunction("courses"); // 👈 trigger CoursesFunction
-                setShowMenu(false);
-              }}
-            >
-              View Professors
-            </button>
-          </div>
-        )}
+        {/* Student Functions */}
+        <div>
+          <button
+            onClick={() => setShowStudentMenu((prev) => !prev)}
+            className="w-full text-left px-4 py-2 hover:bg-gray-700"
+          >
+            Student Functions
+          </button>
+          {showStudentMenu && (
+            <div className="pl-6">
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                onClick={() => setSelectedFunction("createStudent")}
+              >
+                Create Student
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                onClick={() => setSelectedFunction("deleteStudent")}
+              >
+                Delete Student
+              </button>
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                onClick={() => setSelectedFunction("addStudentCourse")}
+              >
+                Add Student to Course
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Render selected component */}
-      <div className="mt-6">{renderFunction()}</div>
+      {/* Main Content */}
+      <div className="flex-1 p-6 overflow-y-auto">
+        <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+        {renderFunction()}
+      </div>
     </div>
   );
 };
