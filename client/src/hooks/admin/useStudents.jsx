@@ -37,18 +37,34 @@ export const useStudents = () => {
                 Authorization: `Bearer ${accessToken}`
             }
         })
-    } catch (error) {
+    } catch (err) {
         setError(err?.response?.data?.message);
     } finally {
         setLoading(false)
     }
   }
 
+
+  const addStudentToCourse = async(studentId, courseId, accessToken) => {
+    setLoading(true)
+    try {
+      await API.post('/student/course', {studentId, courseId}, {
+        headers:{
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      
+    } catch (err) {
+      setError(err?.response?.data?.message);
+    } finally {
+      setLoading(false)
+    }
+  }
   return {
     loading,
     error,
     createStudent,
-    deleteStudent
-
+    deleteStudent,
+addStudentToCourse
   };
 };
