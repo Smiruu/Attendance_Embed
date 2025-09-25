@@ -1,5 +1,6 @@
 import React from "react";
 import useAttendanceData from "../../hooks/useAttendanceData";
+import { Link } from "react-router-dom";
 
 const AttendanceComponent = () => {
   const { attendance, addAttendance } = useAttendanceData();
@@ -20,7 +21,14 @@ const AttendanceComponent = () => {
         <tbody>
           {attendance.map((record) => (
             <tr key={record.id}>
-              <td className="px-4 py-2">{record.name}</td>
+              <td className="px-4 py-2">
+                <Link
+                  to={`/student/${record.id}`}
+                  className="text-white-300 hover:underline"
+                >
+                  {record.name}
+                </Link>
+              </td>
               <td className="px-4 py-2">{record.timeIn}</td>
               <td className="px-4 py-2">{record.timeOut}</td>
               <td className="px-4 py-2">{record.remarks}</td>
