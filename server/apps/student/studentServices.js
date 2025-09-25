@@ -46,6 +46,15 @@ class studentServices{
         return {message: 'Student added to course successfully'};
     }
     
+    static async getCourses() {
+        const {data, error} = await supabase
+        .from("courses")
+        .select("id, name")
+
+        if (error) throw error;
+
+        return {data, message: "Success getting courses"}
+    }
 }
 
 export default studentServices;

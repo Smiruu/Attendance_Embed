@@ -5,7 +5,7 @@ import CoursesFunction from "../components/admin/Prof/CoursesFunctions.jsx";
 
 import CreateStudent from "../components/admin/Students/CreateStudent.jsx";
 import DeleteStudent from "../components/admin/Students/DeleteStudent.jsx";
-// import AddStudentToCourse from "../components/admin/Students/AddStudentToCourse.jsx";
+import AddStudentToCourse from "../components/admin/Students/AddStudentToCourse.jsx";
 
 const Admin = () => {
   const [selectedFunction, setSelectedFunction] = useState(null);
@@ -28,8 +28,8 @@ const Admin = () => {
         return <CreateStudent />;
       case "deleteStudent":
         return <DeleteStudent />;
-      // case "addStudentCourse":
-      //   return <AddStudentToCourse />;
+      case "addStudentCourse":
+        return <AddStudentToCourse />;
 
       default:
         return (

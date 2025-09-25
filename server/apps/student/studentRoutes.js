@@ -13,5 +13,5 @@ router.get('/', studentController.getStudents)
 router.delete('/:studentId', studentController.deleteStudent)
 
 router.post('/course', studentController.addStudentsToCourse)
-
+router.get('/course', studentController.getCourses)
 export default router
