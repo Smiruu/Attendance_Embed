@@ -45,6 +45,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await API.post("/auth/logout", {}, {
+        headers: { Authorization: `Bearer ${access}` }
+      });
+    } catch (err) {
+      console.error("Logout failed (but clearing state anyway):", err);
+    } finally {
+      // Clear auth state no matter what
+      setUser(null);
+      setRole(null);
+      setAccess(null);
+      localStorage.removeItem("accessToken"); // if you store it
+      localStorage.removeItem("profId");      // if you store professor ID
+
+      // Redirect to login
+      window.location.href = "/";
+    }
+  };
+
   const value = {
     user,
     authLoading,
@@ -52,6 +72,7 @@ export const AuthProvider = ({ children }) => {
     access,
     role,
     login,
+    logout
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

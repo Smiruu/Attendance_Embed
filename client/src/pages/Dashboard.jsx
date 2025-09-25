@@ -1,26 +1,41 @@
 import React from "react";
 import Calendar from "../components/dashboard/CalendarComponent.jsx";
 import AttendanceComponent from "../components/dashboard/AttendanceComponent.jsx";
-import ClassesComponent from "../components/dashboard/ClassesComponent.jsx";  
+import CoursesComponent from "../components/dashboard/CoursesComponent.jsx";
+import { useAuthProvider } from "../context/authContext";
 
 function Dashboard() {
+  const { logout } = useAuthProvider();
+
   return (
     <>
       <div className="min-h-screen p-6">
         {/* Top Section: 2 columns */}
-        <div className="bg-[#554640] text-white text-4xl font-bold p-4 mb-3 rounded-lg">
+        <div className="bg-[#554640] text-white text-4xl font-bold p-4 mb-3 rounded-lg grid grid-cols-2">
           DASHBOARD
+          <div>
+            <button
+              onClick={logout}
+              className="bg-[#4B3A34] hover:bg-[red] text-sm mr-2 p-3 rounded-lg float-right"
+            >
+              Logout
+            </button>
+          </div>
         </div>
+
         <div className="grid grid-cols-2 gap-6 mb-6">
           {/* Left Column */}
-          <ClassesComponent/>
+
+          <CoursesComponent />
 
           {/* Right Column */}
           <div className="mt-6">
             <Calendar />
           </div>
         </div>
-        <p className="text-2xl font-extrabold mb-4 text-[#4B3A34]">ATTENDANCE</p>
+        <p className="text-2xl font-extrabold mb-4 text-[#4B3A34]">
+          ATTENDANCE
+        </p>
         <AttendanceComponent />
       </div>
     </>
