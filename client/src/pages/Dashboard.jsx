@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Calendar from "../components/dashboard/CalendarComponent.jsx";
 import AttendanceComponent from "../components/dashboard/AttendanceComponent.jsx";
 import CoursesComponent from "../components/dashboard/CoursesComponent.jsx";
-import { useAuthProvider } from "../context/authContext";
 
 import { useAuthProvider } from "../context/authContext.jsx";
 function Dashboard() {
