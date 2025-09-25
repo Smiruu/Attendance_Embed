@@ -38,6 +38,7 @@ class studentController {
             next(error);
         }
     }
+    
 
     static async getCourses(req, res, next) {
         try {

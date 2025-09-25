@@ -35,12 +35,18 @@ class studentServices{
 
 
     static async addStudentsToCourse(courseData){
+        //check data if array, if not wraps data into an array
+        const students = Array.isArray(courseData.student_id)? courseData.student_id :
+        [courseData.student_id];
+
+        const insertData = students.map(studentId => ({
+            course_id: courseData.course_id,
+            student_id: studentId
+        }))
+
         const {error} = await supabase
         .from('course_students')
-        .insert([{
-            course_id: courseData.course_id,
-            student_id: courseData.student_id,
-        }])
+        .insert(insertData)
 
         if (error) throw error;
         return {message: 'Student added to course successfully'};
