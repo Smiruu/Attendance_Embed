@@ -16,3 +16,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* custom scrollbar */
+.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  background: #4B3A34;
+  border-radius: 8px;
+}
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background: #3a2c26;
+}
+
+/* Firefox */
+.scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #4B3A34 #f1f1f1;
+}

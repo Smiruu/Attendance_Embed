@@ -10,7 +10,7 @@ function Dashboard() {
 
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null); // 👈 store date here
-  console.log("id", selectedCourseId, "date", selectedDate)
+  console.log("id", selectedCourseId, "date", selectedDate);
   return (
     <>
       <div className="min-h-screen p-6">
@@ -28,11 +28,12 @@ function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 gap-6 mb-6">
-          {/* Left Column */}
-          <CoursesComponent onSelectCourse={setSelectedCourseId} />
+          <div className="max-h-[350px] overflow-y-auto pr-2 scrollable">
+            <CoursesComponent onSelectCourse={setSelectedCourseId} />
+          </div>
 
           {/* Right Column */}
-          <div className="mt-6">
+          <div className="mt-6 max-h-[200px]">
             <Calendar onSelectDate={setSelectedDate} /> {/* 👈 pass handler */}
           </div>
         </div>
@@ -41,10 +42,7 @@ function Dashboard() {
           ATTENDANCE
         </p>
         {/* Pass both courseId + date */}
-        <AttendanceComponent
-          courseId={selectedCourseId}
-          date={selectedDate}
-        />
+        <AttendanceComponent courseId={selectedCourseId} date={selectedDate} />
       </div>
     </>
   );
