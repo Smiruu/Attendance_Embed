@@ -1,75 +1,71 @@
 // src/components/Calendar.jsx
-import React, { useState } from "react";
+import React from "react";
 import useCalendarHook from "../../hooks/useCalendarHook.jsx";
 
 const Calendar = ({ onSelectDate }) => {
   const {
     today,
-    currentMonth,
-    currentYear,
+    year,
+    month,
     monthNames,
     daysOfWeek,
     firstDayOfMonth,
     daysInMonth,
+    selectedDate,
+    formatDate,
+    handleDateClick,
+    goToPreviousMonth,
+    goToNextMonth,
   } = useCalendarHook();
-
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  // ✅ Format to yyyy-mm-dd
-  const formatDate = (year, month, day) => {
-    const mm = String(month + 1).padStart(2, "0"); // month is 0-based
-    const dd = String(day).padStart(2, "0");
-    return `${year}-${mm}-${dd}`;
-  };
-
-  const handleDateClick = (day) => {
-    const formatted = formatDate(currentYear, currentMonth, day);
-    setSelectedDate(formatted);
-    console.log(formatted)
-    if (onSelectDate) {
-      onSelectDate(formatted); // pass to parent
-    }
-  };
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl overflow-hidden min-h-[325px]">
-      {/* Header */}
-      <div className="text-center bg-[#70625c] p-4 rounded-t-xl">
-        <h2 className="text-lg font-bold text-white">
-          {monthNames[currentMonth]} {currentYear}
+      {/* Header with navigation */}
+      <div className="flex justify-between items-center bg-[#70625c] p-4 rounded-t-xl text-white">
+        <button
+          onClick={goToPreviousMonth}
+          className="px-2 py-1 rounded hover:bg-[#554640]"
+        >
+          ◀
+        </button>
+        <h2 className="text-lg font-bold">
+          {monthNames[month]} {year}
         </h2>
+        <button
+          onClick={goToNextMonth}
+          className="px-2 py-1 rounded hover:bg-[#554640]"
+        >
+          ▶
+        </button>
       </div>
 
       {/* Days of week */}
       <div className="grid grid-cols-7 text-center font-medium text-gray-600">
         {daysOfWeek.map((day) => (
-          <div key={day} className="py-2">
-            {day}
-          </div>
+          <div key={day} className="py-2">{day}</div>
         ))}
       </div>
 
       {/* Dates */}
       <div className="grid grid-cols-7 text-center text-gray-800">
-        {Array(firstDayOfMonth)
-          .fill(null)
-          .map((_, i) => (
-            <div key={`empty-${i}`} className="py-2"></div>
-          ))}
+        {Array(firstDayOfMonth).fill(null).map((_, i) => (
+          <div key={`empty-${i}`} className="py-2"></div>
+        ))}
 
         {Array.from({ length: daysInMonth }, (_, i) => {
           const day = i + 1;
           const isToday =
             day === today.getDate() &&
-            currentMonth === today.getMonth() &&
-            currentYear === today.getFullYear();
+            month === today.getMonth() &&
+            year === today.getFullYear();
 
-          const isSelected = selectedDate === formatDate(currentYear, currentMonth, day);
+          const isSelected =
+            selectedDate === formatDate(year, month, day);
 
           return (
             <div
               key={day}
-              onClick={() => handleDateClick(day)} // 👈 clickable
+              onClick={() => handleDateClick(day, onSelectDate)}
               className={`py-2 rounded-full cursor-pointer transition 
                 hover:bg-[#70625c] hover:text-white
                 ${isToday ? "bg-[#554640] text-white font-bold" : ""}
