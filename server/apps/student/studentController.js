@@ -49,6 +49,15 @@ class studentController {
             next(error)
         }
     }
+
+    static async getCourseStudents(req, res, next) {
+        try {
+            const result = await studentServices.getCourseStudents(req.params.courseId)
+            res.status(200).json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default studentController;

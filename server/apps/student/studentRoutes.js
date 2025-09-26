@@ -13,5 +13,6 @@ router.get('/', studentController.getStudents)
 router.delete('/:studentId', studentController.deleteStudent)
 
 router.post('/course', studentController.addStudentsToCourse)
+router.get('/course/:courseId', studentController.getCourseStudents)
 router.get('/course', studentController.getCourses)
 export default router

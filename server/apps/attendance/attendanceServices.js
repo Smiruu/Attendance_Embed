@@ -1,4 +1,4 @@
-import { supabase } from "../../config/supabase";
+import { supabase } from "../../config/supabase.js";
 
 class attendanceServices {
 
@@ -10,8 +10,8 @@ static async getAttendanceOfSubject(courseId, date) {
       remark,
       created_at,
       student:students (
+        id_code,
         name
-        email
       ),
       session:sessions!inner (
         time_in
@@ -20,11 +20,7 @@ static async getAttendanceOfSubject(courseId, date) {
     .eq("course_id", courseId)       // match the course
     .eq("session.date", date);       // match the date in sessions
 
-  if (error) {
-    console.error("Error fetching attendance:", error.message);
-    return null;
-  }
-
+  if(error) throw error
   return data;
 }
 ;

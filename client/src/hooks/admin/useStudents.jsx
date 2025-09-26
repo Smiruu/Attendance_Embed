@@ -37,7 +37,7 @@ export const useStudents = () => {
           Authorization: `Bearer ${accessToken}`
         }}
       )
-
+      
       return res.data
     } catch (err) {
       setError(err?.response?.data?.message)
@@ -68,6 +68,8 @@ export const useStudents = () => {
         course_id: courseId,
         student_id: Array.isArray(studentIds) ? studentIds : [studentIds]
       }
+
+      console.log(payload)
       await API.post('/student/course', {payload}, {
         headers:{
           Authorization: `Bearer ${accessToken}`
@@ -98,6 +100,22 @@ export const useStudents = () => {
     }
   }
 
+  const getCourseStudents = async(accessToken,courseId) => {
+    setLoading(true)
+    try {
+      const res = await API.get(`/student/course/${courseId}`,
+        {headers:{
+          Authorization: `Bearer ${accessToken}`
+        }}
+      )
+
+      return res.data
+    } catch (err) {
+      setError(err?.response?.data?.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return {
     loading,
@@ -106,6 +124,7 @@ export const useStudents = () => {
     getCourses,
     createStudent,
     deleteStudent,
-    addStudentToCourse
+    addStudentToCourse,
+    getCourseStudents
   };
 };

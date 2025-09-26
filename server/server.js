@@ -1,6 +1,7 @@
 import authenticationRoutes from './apps/authentication/authenticationRoutes.js';
 import profRoutes from './apps/prof/profRoutes.js';
 import studentRoutes from './apps/student/studentRoutes.js'
+import attendanceRoutes from './apps/attendance/attendanceRoutes.js'
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -24,7 +25,8 @@ app.use(cors({
 //Routes
 app.use('/api/auth', authenticationRoutes);
 app.use('/api/professor', profRoutes)
-app.use('/api/student/', studentRoutes)
+app.use('/api/student', studentRoutes)
+app.use('/api/attendance', attendanceRoutes)
 
 app.use(errorHandler)
 

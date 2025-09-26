@@ -17,7 +17,7 @@ function App() {
               <Route path='/' element={<Login/>}/>
               <Route path='/admin' element={<Admin/>}/>
               <Route path="/dashboard" element={<Dashboard/>}/>
-              <Route path="/student/:id" element={<StudentInfo/>}/>
+              <Route path="/student/:id/:name" element={<StudentInfo/>}/>
             </Routes>
           </Router>
         </AuthProvider>

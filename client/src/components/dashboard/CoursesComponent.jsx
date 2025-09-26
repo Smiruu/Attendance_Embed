@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useCourses } from "../../hooks/admin/useCourses";
 import { useAuthProvider } from "../../context/authContext";
 
-const CoursesComponent = () => {
+const CoursesComponent = ({ onSelectCourse }) => {
   const { getProfCourses, error, loading } = useCourses();
   const { access, user } = useAuthProvider();
 
   const [courses, setCourses] = useState([]);
+  const [selectedCourseId, setSelectedCourseId] = useState(null); // 👈 store selected course
   const profId = user?.id;
 
   // ✅ format time (HH:MM)
@@ -25,13 +26,17 @@ const CoursesComponent = () => {
       });
 
       if (data) {
-        console.log(data);
         setCourses(data.courses || []);
       }
     };
 
     fetchCourses();
   }, [access, profId]);
+
+  const handleSelectCourse = (courseId) => {
+    setSelectedCourseId(courseId); // update local highlight
+    onSelectCourse(courseId); // Pass to parent
+  };
 
   return (
     <div className="p-4">
@@ -48,7 +53,9 @@ const CoursesComponent = () => {
             course.schedules.map((schedule) => (
               <div
                 key={`${course.id}-${schedule.id}`}
-                className="bg-[#4B3A34] text-white p-4 rounded-lg mb-3"
+                onClick={() => handleSelectCourse(course.id)} // 👈 clickable
+                className={`cursor-pointer bg-[#4B3A34] text-white p-4 rounded-lg mb-3 transition 
+                  ${selectedCourseId === course.id ? "ring-4 ring-yellow-400" : ""}`}
               >
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold">{course.name}</span>
@@ -68,7 +75,9 @@ const CoursesComponent = () => {
           ) : (
             <div
               key={course.id}
-              className="bg-[#4B3A34] text-white p-4 rounded-lg mb-3"
+              onClick={() => handleSelectCourse(course.id)} // ✅ fixed
+              className={`cursor-pointer bg-[#4B3A34] text-white p-4 rounded-lg mb-3 transition 
+                ${selectedCourseId === course.id ? "ring-4 ring-yellow-400" : ""}`}
             >
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold">{course.name}</span>

@@ -1,8 +1,8 @@
 // src/components/Calendar.jsx
-import React from "react";
+import React, { useState } from "react";
 import useCalendarHook from "../../hooks/useCalendarHook.jsx";
 
-const Calendar = () => {
+const Calendar = ({ onSelectDate }) => {
   const {
     today,
     currentMonth,
@@ -12,6 +12,24 @@ const Calendar = () => {
     firstDayOfMonth,
     daysInMonth,
   } = useCalendarHook();
+
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  // ✅ Format to yyyy-mm-dd
+  const formatDate = (year, month, day) => {
+    const mm = String(month + 1).padStart(2, "0"); // month is 0-based
+    const dd = String(day).padStart(2, "0");
+    return `${year}-${mm}-${dd}`;
+  };
+
+  const handleDateClick = (day) => {
+    const formatted = formatDate(currentYear, currentMonth, day);
+    setSelectedDate(formatted);
+    console.log(formatted)
+    if (onSelectDate) {
+      onSelectDate(formatted); // pass to parent
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl overflow-hidden min-h-[325px]">
@@ -38,6 +56,7 @@ const Calendar = () => {
           .map((_, i) => (
             <div key={`empty-${i}`} className="py-2"></div>
           ))}
+
         {Array.from({ length: daysInMonth }, (_, i) => {
           const day = i + 1;
           const isToday =
@@ -45,12 +64,16 @@ const Calendar = () => {
             currentMonth === today.getMonth() &&
             currentYear === today.getFullYear();
 
+          const isSelected = selectedDate === formatDate(currentYear, currentMonth, day);
+
           return (
             <div
               key={day}
-              className={`py-2 rounded-full cursor-pointer hover:bg-[#70625c] hover:text-white ${
-                isToday ? "bg-[#554640] text-white font-bold" : ""
-              }`}
+              onClick={() => handleDateClick(day)} // 👈 clickable
+              className={`py-2 rounded-full cursor-pointer transition 
+                hover:bg-[#70625c] hover:text-white
+                ${isToday ? "bg-[#554640] text-white font-bold" : ""}
+                ${isSelected ? "ring-2 ring-yellow-400 font-bold" : ""}`}
             >
               {day}
             </div>

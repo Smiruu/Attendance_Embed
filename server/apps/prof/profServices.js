@@ -57,7 +57,7 @@ class profServices {
     if (CourseError) throw CourseError;
 
     const course = courseRows?.[0]; // get first row safely
-    console.log("course:", course);
+    
 
     const { error: ScheduleError } = await supabase.from("schedules").insert([
       {

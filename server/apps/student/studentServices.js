@@ -36,14 +36,14 @@ class studentServices{
 
     static async addStudentsToCourse(courseData){
         //check data if array, if not wraps data into an array
-        const students = Array.isArray(courseData.student_id)? courseData.student_id :
-        [courseData.student_id];
+        const students = Array.isArray(courseData.payload.student_id)? courseData.payload.student_id :
+        [courseData.payload.student_id];
 
         const insertData = students.map(studentId => ({
-            course_id: courseData.course_id,
+            course_id: courseData.payload.course_id,
             student_id: studentId
         }))
-
+        console.log(courseData)
         const {error} = await supabase
         .from('course_students')
         .insert(insertData)
@@ -61,6 +61,18 @@ class studentServices{
 
         return {data, message: "Success getting courses"}
     }
+
+    static async getCourseStudents(course_id){
+
+        const {data, error} = await supabase
+        .from('course_students')
+        .select('students(*)')
+        .eq('course_id', course_id)
+
+        if (error) throw error
+        return {data, message:"Success students"}
+    }
+
 }
 
 export default studentServices;

@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "../components/dashboard/CalendarComponent.jsx";
 import AttendanceComponent from "../components/dashboard/AttendanceComponent.jsx";
 import CoursesComponent from "../components/dashboard/CoursesComponent.jsx";
 
 import { useAuthProvider } from "../context/authContext.jsx";
+
 function Dashboard() {
   const { logout } = useAuthProvider();
 
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); // 👈 store date here
+  console.log("id", selectedCourseId, "date", selectedDate)
   return (
     <>
       <div className="min-h-screen p-6">
@@ -25,18 +29,22 @@ function Dashboard() {
 
         <div className="grid grid-cols-2 gap-6 mb-6">
           {/* Left Column */}
-
-          <CoursesComponent />
+          <CoursesComponent onSelectCourse={setSelectedCourseId} />
 
           {/* Right Column */}
           <div className="mt-6">
-            <Calendar />
+            <Calendar onSelectDate={setSelectedDate} /> {/* 👈 pass handler */}
           </div>
         </div>
+
         <p className="text-2xl font-extrabold mb-4 text-[#4B3A34]">
           ATTENDANCE
         </p>
-        <AttendanceComponent />
+        {/* Pass both courseId + date */}
+        <AttendanceComponent
+          courseId={selectedCourseId}
+          date={selectedDate}
+        />
       </div>
     </>
   );
