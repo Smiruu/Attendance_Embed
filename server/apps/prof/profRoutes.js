@@ -7,12 +7,12 @@ const router = express.Router();
 
 router.use(authenticate);
 
-
 router.post('/create', adminAuth, profController.createProf);
 router.delete('/:profId', adminAuth, profController.deleteProf);
 router.get('/', adminAuth, profController.getProfList);
-router.post('/courses/create', adminAuth,profController.createCourse);
+router.post('/courses/create', adminAuth, profController.createCourse);
 router.get('/courses/:profId', profController.getProfCourses);
-
+router.put('/courses/:courseId', adminAuth, profController.updateCourse);
+router.delete('/courses/:courseId', adminAuth, profController.deleteCourse);
 
 export default router;

@@ -10,12 +10,12 @@ export const useCourses = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createCourse = async ({ accessToken, prof_id, name,section,time_start, time_end, day, room }) => {
+  const createCourse = async ({ accessToken, prof_id, name, section, time_start, time_end, day, room }) => {
     setLoading(true);
     try {
       await API.post(
         "/professor/courses/create",
-        { prof_id, name, section,time_start, time_end, day, room},
+        { prof_id, name, section, time_start, time_end, day, room },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -29,10 +29,10 @@ export const useCourses = () => {
     }
   };
 
-  const getProfCourses = async({accessToken, prof_id}) =>{
+  const getProfCourses = async ({ accessToken, prof_id }) => {
     setLoading(true);
     try {
-        const res = await API.get(
+      const res = await API.get(
         `/professor/courses/${prof_id}`,
         {
           headers: {
@@ -41,22 +41,57 @@ export const useCourses = () => {
         }
       );
 
-      return res.data
+      return res.data;
     } catch (err) {
       setError(err?.response?.data?.message);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
+  const updateCourse = async ({ accessToken, course_id, name, section, time_start, time_end, day, room }) => {
+    setLoading(true);
+    try {
+      await API.put(
+        `/professor/courses/${course_id}`,
+        { name, section, time_start, time_end, day, room },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+    } catch (err) {
+      setError(err?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  
+  const deleteCourse = async ({ accessToken, course_id }) => {
+    setLoading(true);
+    try {
+      await API.delete(
+        `/professor/courses/${course_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+    } catch (err) {
+      setError(err?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     loading,
     error,
     createCourse,
-    getProfCourses
+    getProfCourses,
+    updateCourse,
+    deleteCourse
   };
 };
-

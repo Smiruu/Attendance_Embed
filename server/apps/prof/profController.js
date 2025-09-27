@@ -13,7 +13,6 @@ class profController {
     
     static async deleteProf(req, res, next) {
         try {
-
             const result = await profServices.deleteProf(req.params.profId);
             res.status(200).json(result);
         } catch (error) {
@@ -39,10 +38,28 @@ class profController {
         }
     }
 
-    static async getProfCourses (req, res, next){
+    static async getProfCourses(req, res, next){
         try {
             const result = await profServices.getProfCourses(req.params.profId);
             res.status(200).json(result)
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async updateCourse(req, res, next) {
+        try {
+            const result = await profServices.updateCourse(req.params.courseId, req.body);
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async deleteCourse(req, res, next) {
+        try {
+            const result = await profServices.deleteCourse(req.params.courseId);
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }

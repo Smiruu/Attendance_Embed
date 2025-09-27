@@ -11,7 +11,8 @@ const CoursesFunction = () => {
   const [profs, setProfs] = useState([]);
   const [selectedProf, setSelectedProf] = useState("");
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const [showForm, setShowForm] = useState(false); // 👈 toggle state
+  const [showForm, setShowForm] = useState(false);
+  const [editingCourse, setEditingCourse] = useState(null); // Add this
 
   // fetch professors on mount
   useEffect(() => {
@@ -24,8 +25,25 @@ const CoursesFunction = () => {
     fetchProfs();
   }, [access]);
 
+  // Add these functions
+  const handleEditCourse = (course) => {
+    setEditingCourse(course);
+    setShowForm(true);
+  };
+
+  const handleCloseEdit = () => {
+    setEditingCourse(null);
+    setShowForm(false);
+  };
+
+  const handleCourseCreated = () => {
+    setRefreshFlag(!refreshFlag);
+    setShowForm(false);
+    setEditingCourse(null);
+  };
+
   return (
-    <div className="p-6 text-black"> {/* 👈 default all text black */}
+    <div className="p-6 text-black">
       <h1 className="text-xl font-bold mb-4">Professor Courses</h1>
 
       {/* Select professor */}
@@ -38,6 +56,7 @@ const CoursesFunction = () => {
           onChange={(e) => {
             setSelectedProf(e.target.value);
             setShowForm(false); // reset form when switching prof
+            setEditingCourse(null); // Add this
           }}
           className="border p-2 rounded w-full mb-4 text-black"
         >
@@ -53,17 +72,19 @@ const CoursesFunction = () => {
       {/* Toggle create form */}
       {selectedProf && (
         <div className="mb-6">
-          <button
-            onClick={() => setShowForm((prev) => !prev)}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            {showForm ? "Close Form" : "Create Course"}
-          </button>
-
-          {showForm && (
+          {!showForm ? (
+            <button
+              onClick={() => setShowForm(true)}
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Create Course
+            </button>
+          ) : (
             <CourseForm
               profId={selectedProf}
-              onCourseCreated={() => setRefreshFlag(!refreshFlag)}
+              editData={editingCourse} // Add this
+              onCourseCreated={handleCourseCreated} // Update this
+              onEdit={handleCloseEdit} // Add this
             />
           )}
         </div>
@@ -71,7 +92,11 @@ const CoursesFunction = () => {
 
       {/* Courses table */}
       {selectedProf && (
-        <CourseTable profId={selectedProf} refreshFlag={refreshFlag} />
+        <CourseTable 
+          profId={selectedProf} 
+          refreshFlag={refreshFlag}
+          onEditCourse={handleEditCourse} // Add this
+        />
       )}
     </div>
   );

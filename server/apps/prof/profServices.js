@@ -57,7 +57,6 @@ class profServices {
     if (CourseError) throw CourseError;
 
     const course = courseRows?.[0]; // get first row safely
-    
 
     const { error: ScheduleError } = await supabase.from("schedules").insert([
       {
@@ -65,37 +64,83 @@ class profServices {
         time_start: courseData.time_start,
         time_end: courseData.time_end,
         day: courseData.day,
-        
-        room:courseData.room,
+        room: courseData.room,
       },
     ]);
-    console.log("error", ScheduleError)
+
     if (ScheduleError) throw ScheduleError;
     return { message: "Course created successfully" };
   }
 
- static async getProfCourses(profId) {
-  const { data, error } = await supabase
-    .from("courses")
-    .select(`
-      id,
-      name,
-      section,
-      schedules (
+  static async getProfCourses(profId) {
+    const { data, error } = await supabase
+      .from("courses")
+      .select(`
         id,
-        time_start,
-        time_end,
-        day,
-        room
-      )
-    `)
-    .eq("prof_id", profId);
+        name,
+        section,
+        schedules (
+          id,
+          time_start,
+          time_end,
+          day,
+          room
+        )
+      `)
+      .eq("prof_id", profId);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return { courses: data, message: "Successfully got the courses with schedules" };
-}
+    return { courses: data, message: "Successfully got the courses with schedules" };
+  }
 
+  static async updateCourse(courseId, courseData) {
+    // Update course table
+    const { error: courseError } = await supabase
+      .from("courses")
+      .update({
+        name: courseData.name,
+        section: courseData.section,
+      })
+      .eq("id", courseId);
+
+    if (courseError) throw courseError;
+
+    // Update schedule table
+    const { error: scheduleError } = await supabase
+      .from("schedules")
+      .update({
+        time_start: courseData.time_start,
+        time_end: courseData.time_end,
+        day: courseData.day,
+        room: courseData.room,
+      })
+      .eq("course_id", courseId);
+
+    if (scheduleError) throw scheduleError;
+
+    return { message: "Course updated successfully" };
+  }
+
+  static async deleteCourse(courseId) {
+    // First delete from schedules (child table)
+    const { error: scheduleError } = await supabase
+      .from("schedules")
+      .delete()
+      .eq("course_id", courseId);
+
+    if (scheduleError) throw scheduleError;
+
+    // Then delete from courses (parent table)
+    const { error: courseError } = await supabase
+      .from("courses")
+      .delete()
+      .eq("id", courseId);
+
+    if (courseError) throw courseError;
+
+    return { message: "Course deleted successfully" };
+  }
 }
 
 export default profServices;

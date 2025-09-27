@@ -1,17 +1,61 @@
-import { use, useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthProvider } from "../../../context/authContext";
 import { useCourses } from "../../../hooks/admin/useCourses";
 
-const CourseForm = ({ profId, onCourseCreated }) => {
-  const { createCourse, loading } = useCourses();
+const CourseForm = ({ profId, onCourseCreated, editData, onEdit }) => {
+  const { createCourse, updateCourse, loading } = useCourses();
   const { access } = useAuthProvider();
 
   const [courseName, setCourseName] = useState("");
-  const [section, setSection] = useState("")
+  const [section, setSection] = useState("");
   const [timeStart, setTimeStart] = useState({ hour: "", minute: "", period: "AM" });
   const [timeEnd, setTimeEnd] = useState({ hour: "", minute: "", period: "AM" });
-  const [days, setDays] = useState([]); // ⬅️ array of days
-  const [room, setRoom] = useState("")
+  const [days, setDays] = useState([]);
+  const [room, setRoom] = useState("");
+
+  const isEditing = !!editData;
+
+  // Helper function to convert 24-hour time to 12-hour format
+  const convertTo12Hour = (time24) => {
+    if (!time24) return { hour: "", minute: "", period: "AM" };
+    
+    const [hourStr, minuteStr] = time24.split(":");
+    let hour = parseInt(hourStr, 10);
+    const minute = minuteStr;
+    let period = "AM";
+
+    if (hour === 0) {
+      hour = 12;
+    } else if (hour === 12) {
+      period = "PM";
+    } else if (hour > 12) {
+      hour -= 12;
+      period = "PM";
+    }
+
+    return {
+      hour: String(hour).padStart(2, "0"),
+      minute: minute,
+      period: period,
+    };
+  };
+
+  // Populate form when editing
+  useEffect(() => {
+    if (editData) {
+      setCourseName(editData.name || "");
+      setSection(editData.section || "");
+      setRoom(editData.schedules?.[0]?.room || "");
+      setDays(editData.schedules?.[0]?.day || []);
+      
+      if (editData.schedules?.[0]?.time_start) {
+        setTimeStart(convertTo12Hour(editData.schedules[0].time_start));
+      }
+      if (editData.schedules?.[0]?.time_end) {
+        setTimeEnd(convertTo12Hour(editData.schedules[0].time_end));
+      }
+    }
+  }, [editData]);
 
   const handleDayChange = (day) => {
     setDays((prev) =>
@@ -33,30 +77,57 @@ const CourseForm = ({ profId, onCourseCreated }) => {
     return `${String(h).padStart(2, "0")}:${minute}:00`;
   };
 
-  const handleCreateCourse = async () => {
+  const handleSubmit = async () => {
     const startTime = formatTime(timeStart);
     const endTime = formatTime(timeEnd);
 
-    await createCourse({
-      accessToken: access,
-      prof_id: profId,
-      name: courseName,
-      section: section,
-      time_start: startTime,
-      time_end: endTime,
-      day: days, // ⬅️ array of days
-      room: room,
-    });
+    if (isEditing) {
+      await updateCourse({
+        accessToken: access,
+        course_id: editData.id,
+        name: courseName,
+        section: section,
+        time_start: startTime,
+        time_end: endTime,
+        day: days,
+        room: room,
+      });
+      if (onEdit) onEdit(); // Close edit mode
+    } else {
+      await createCourse({
+        accessToken: access,
+        prof_id: profId,
+        name: courseName,
+        section: section,
+        time_start: startTime,
+        time_end: endTime,
+        day: days,
+        room: room,
+      });
+    }
 
     // reset form
-    setCourseName("");
-    setTimeStart({ hour: "", minute: "", period: "AM" });
-    setTimeEnd({ hour: "", minute: "", period: "AM" });
-    setDays([]);
+    resetForm();
 
     if (onCourseCreated) {
       onCourseCreated(); // notify parent to refresh
     }
+  };
+
+  const resetForm = () => {
+    setCourseName("");
+    setSection("");
+    setTimeStart({ hour: "", minute: "", period: "AM" });
+    setTimeEnd({ hour: "", minute: "", period: "AM" });
+    setDays([]);
+    setRoom("");
+  };
+
+  const handleCancel = () => {
+    if (isEditing && onEdit) {
+      onEdit(); // Close edit mode
+    }
+    resetForm();
   };
 
   // Generate 12-hour format
@@ -79,6 +150,10 @@ const CourseForm = ({ profId, onCourseCreated }) => {
 
   return (
     <div className="mb-6 space-y-4 border p-4 rounded bg-gray-50">
+      <h3 className="text-lg font-semibold">
+        {isEditing ? "Edit Course" : "Create New Course"}
+      </h3>
+
       {/* Course Name */}
       <input
         type="text"
@@ -203,13 +278,24 @@ const CourseForm = ({ profId, onCourseCreated }) => {
         </div>
       </div>
 
-      <button
-        onClick={handleCreateCourse}
-        disabled={!isFormValid || loading}
-        className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-      >
-        {loading ? "Creating..." : "Create Course"}
-      </button>
+      <div className="flex gap-2">
+        <button
+          onClick={handleSubmit}
+          disabled={!isFormValid || loading}
+          className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+        >
+          {loading ? (isEditing ? "Updating..." : "Creating...") : (isEditing ? "Update Course" : "Create Course")}
+        </button>
+        
+        {isEditing && (
+          <button
+            onClick={handleCancel}
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </div>
   );
 };
