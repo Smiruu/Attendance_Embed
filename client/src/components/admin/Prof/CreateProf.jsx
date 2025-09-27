@@ -30,67 +30,70 @@ const CreateProf = () => {
   return (
     <div className=" h-[80dvh] flex flex-col justify-center items-center">
       <div className="w-80">
-        <h1 className="text-xl font-bold mb-4">Create Professor</h1>
+        <div className="p-4 border rounded w-full max-w-md text-black">
 
-        <form onSubmit={handleSubmit} className="space-y-4 ">
-          <div>
-            <label className="block text-black w-[10rem]">Full Name</label>
-            <input
-              type="text"
-              name="full_name"
-              value={formData.full_name}
-              onChange={handleChange}
-              required
-              className="w-full border p-2 text-black"
-            />
-          </div>
+          <h1 className="text-xl font-bold mb-4">Create Professor</h1>
 
-          <div>
-            <label className="block text-black">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full border p-2 text-black"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div>
+              <label className="block text-black w-[10rem]">Full Name</label>
+              <input
+                type="text"
+                name="full_name"
+                value={formData.full_name}
+                onChange={handleChange}
+                required
+                className="w-full border p-2 text-black rounded"
+              />
+            </div>
 
-          <div>
-            <label className="block text-black">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full border p-2 text-black"
-            />
-          </div>
+            <div>
+              <label className="block text-black">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full border p-2 text-black rounded"
+              />
+            </div>
 
-          <div>
-            <label className="block text-black">Id Code</label>
-            <input
-              type="text"
-              name="id_code"
-              value={formData.id_code}
-              onChange={handleChange}
-              required
-              className="w-full border p-2 text-black"
-            />
-          </div>
+            <div>
+              <label className="block text-black">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full border p-2 text-black rounded"
+              />
+            </div>
 
-          {error && <p className="text-red-500">{error}</p>}
+            <div>
+              <label className="block text-black">Id Code</label>
+              <input
+                type="text"
+                name="id_code"
+                value={formData.id_code}
+                onChange={handleChange}
+                required
+                className="w-full border p-2 text-black rounded"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-gray-800 text-white p-2 hover:bg-gray-900"
-          >
-            {loading ? "Creating..." : "Create Professor"}
-          </button>
-        </form>
+            {error && <p className="text-red-500">{error}</p>}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gray-800 text-white p-2 hover:bg-gray-900"
+            >
+              {loading ? "Creating..." : "Create Professor"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
