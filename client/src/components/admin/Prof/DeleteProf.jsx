@@ -23,14 +23,14 @@ const DeleteProf = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-black">Professor ID</label>
           <input
             type="text"
             name="profId"
+            placeholder="Professor ID"
             value={profId}
             onChange={(e) => setProfId(e.target.value)}
             required
-            className="w-full border p-2 text-black"
+            className="w-full border p-2 text-black rounded"
           />
         </div>
 

@@ -40,6 +40,7 @@ const CreateProf = () => {
               <input
                 type="text"
                 name="full_name"
+                placeholder="Professor Name"
                 value={formData.full_name}
                 onChange={handleChange}
                 required
@@ -52,6 +53,7 @@ const CreateProf = () => {
               <input
                 type="email"
                 name="email"
+                placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -64,6 +66,7 @@ const CreateProf = () => {
               <input
                 type="password"
                 name="password"
+                placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -76,6 +79,7 @@ const CreateProf = () => {
               <input
                 type="text"
                 name="id_code"
+                placeholder="Professor ID"
                 value={formData.id_code}
                 onChange={handleChange}
                 required
