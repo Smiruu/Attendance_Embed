@@ -123,11 +123,11 @@ const CourseTable = ({ profId, refreshFlag, onEditCourse }) => {
                         {formatTime(schedule.time_end)}
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {index === 0 && ( // Only show actions on first row
-                          <div className="flex gap-2">
+                        {index === 0 && ( 
+                          <div className="flex gap-2 justify-center">
                             <button
                               onClick={() => onEditCourse && onEditCourse(course)}
-                              className="px-2 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600"
+                              className="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-yellow-600"
                             >
                               Edit
                             </button>
