@@ -25,36 +25,38 @@ const CreateStudent = () => {
   };
 
   return (
-    <div className="p-4 border rounded w-full max-w-md text-black">
-      <h2 className="text-lg font-bold mb-4">Create Student</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          name="name"
-          placeholder="Student Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full border px-3 py-2 rounded text-black"
-        />
-        <input
-          type="text"
-          name="id_code"
-          placeholder="Student ID Code"
-          value={formData.id_code}
-          onChange={handleChange}
-          required
-          className="w-full border px-3 py-2 rounded text-black"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
-        >
-          {loading ? "Creating..." : "Create Student"}
-        </button>
-      </form>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+    <div className="h-[80dvh] flex flex-col justify-center items-center">
+      <div className="p-4 border rounded w-full max-w-md text-black">
+        <h2 className="text-lg font-bold mb-4">Create Student</h2>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="text"
+            name="name"
+            placeholder="Student Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full border px-3 py-2 rounded text-black"
+          />
+          <input
+            type="text"
+            name="id_code"
+            placeholder="Student ID Code"
+            value={formData.id_code}
+            onChange={handleChange}
+            required
+            className="w-full border px-3 py-2 rounded text-black"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+          >
+            {loading ? "Creating..." : "Create Student"}
+          </button>
+        </form>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
     </div>
   );
 };

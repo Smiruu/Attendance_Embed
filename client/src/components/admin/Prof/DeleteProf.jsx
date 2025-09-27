@@ -15,32 +15,34 @@ const DeleteProf = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6">
-      <h1 className="text-xl font-bold mb-4">Delete Professor</h1>
+    <div className=" h-[80dvh] flex flex-col justify-center items-center">
+      <div className="w-80">
+        <h1 className="text-xl font-bold mb-4">Delete Professor</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-black">Professor ID</label>
-          <input
-            type="text"
-            name="profId"
-            value={profId}
-            onChange={(e) => setProfId(e.target.value)}
-            required
-            className="w-full border p-2 text-black"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-black">Professor ID</label>
+            <input
+              type="text"
+              name="profId"
+              value={profId}
+              onChange={(e) => setProfId(e.target.value)}
+              required
+              className="w-full border p-2 text-black"
+            />
+          </div>
 
-        {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500">{error}</p>}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-red-600 text-white p-2 hover:bg-red-700"
-        >
-          {loading ? "Deleting..." : "Delete Professor"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-red-600 text-white p-2 hover:bg-red-700"
+          >
+            {loading ? "Deleting..." : "Delete Professor"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
