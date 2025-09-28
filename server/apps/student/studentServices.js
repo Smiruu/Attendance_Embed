@@ -62,7 +62,7 @@ class studentServices{
         return {data, message: "Success getting courses"}
     }
 
-    static async getCourseStudents(course_id){
+    static async getCourseStudents(course_ids, student_id){
 
         const {data, error} = await supabase
         .from('course_students')
@@ -73,6 +73,54 @@ class studentServices{
         return {data, message:"Success students"}
     }
 
+    static async getStudentRemarks(course){
+         const { data: student, error: studentError } = await supabase
+    .from("students")
+    .select("id")
+    .eq("id_code", studentIdCode)
+    .single();
+
+  if (studentError || !student) {
+    throw new Error("Student not found");
+  }
+
+  // Step 2: fetch attendance counts grouped by course + remark
+  let query = supabase
+    .from("attendance")
+    .select("course_id, remark, count:count()")
+    .eq("student_id", student.id)
+    .group("course_id, remark");
+
+  if (courseIds && courseIds.length > 0) {
+    query = query.in("course_id", courseIds);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  // Step 3: reshape into per-course buckets
+  const remarks = {};
+  data.forEach(row => {
+    if (!remarks[row.course_id]) {
+      remarks[row.course_id] = {
+        onTime: 0,
+        late: 0,
+        absent: 0,
+        noSchedule: 0
+      };
+    }
+    if (row.remark === "on-time") remarks[row.course_id].onTime = row.count;
+    if (row.remark === "late") remarks[row.course_id].late = row.count;
+    if (row.remark === "absent") remarks[row.course_id].absent = row.count;
+    if (row.remark === "no-schedule") remarks[row.course_id].noSchedule = row.count;
+  });
+
+  return {
+    studentIdCode,
+    studentId: student.id,
+    remarks
+  };
+    }
 }
 
 export default studentServices;
