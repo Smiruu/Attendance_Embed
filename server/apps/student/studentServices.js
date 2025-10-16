@@ -38,7 +38,7 @@ class studentServices{
         //check data if array, if not wraps data into an array
         const students = Array.isArray(courseData.payload.student_id)? courseData.payload.student_id :
         [courseData.payload.student_id];
-
+        console.log(courseData)
         const insertData = students.map(studentId => ({
             course_id: courseData.payload.course_id,
             student_id: studentId
@@ -62,7 +62,7 @@ class studentServices{
         return {data, message: "Success getting courses"}
     }
 
-    static async getCourseStudents(course_ids, student_id){
+    static async getCourseStudents(course_id){
 
         const {data, error} = await supabase
         .from('course_students')

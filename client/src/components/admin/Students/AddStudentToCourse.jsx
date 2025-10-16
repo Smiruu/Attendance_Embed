@@ -18,6 +18,7 @@ function AddStudentToCourse() {
         const response = await getCourses(access);
         if (response) {
           setCourses(response.data);
+          console.log(response.data)
         }
       };
       fetchCourses();
@@ -56,6 +57,7 @@ function AddStudentToCourse() {
           <option value="">Select a course</option>
           {courses.map((course) => (
             <option key={course.id} value={course.id}>
+              
               {course.name}
             </option>
           ))}
